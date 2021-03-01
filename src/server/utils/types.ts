@@ -1,5 +1,5 @@
 import { Request } from 'express';
-//import { UsersTable } from '../db/models';
+import { UsersTable } from '../db/models';
 
 export interface IPayload {
     id?: number,
@@ -10,6 +10,6 @@ export interface IPayload {
 }
 
 export interface ReqUser extends Request {
-    // id?: number,
-    // user?: UsersTable | IPayload
+    id?: number,
+    user?: UsersTable | IPayload
 }

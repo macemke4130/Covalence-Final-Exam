@@ -20,8 +20,8 @@ export const Query = <T = any>(query: string, values?: any) => {
 }
 
 import users from './queries/users';
-// import books from './books/books';
+import books from './queries/books';
 export default {
-    users
-    // books
+    users,
+    books
 }

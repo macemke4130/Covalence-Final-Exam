@@ -37,7 +37,7 @@ const Register = (props: RegisterProps) => {
         if (token) {
             localStorage.setItem("isAuth", "true");
             localStorage.setItem("token", token);
-            history.push("/allbooks");
+            history.push("/books");
         }
     }
 
