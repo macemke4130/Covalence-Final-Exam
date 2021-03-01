@@ -10,7 +10,8 @@ const Nav = (props: NavProps) => {
 	const history = useHistory();
 
 	const hLogOut = () => {
-		localStorage.setItem("isAuth", "false");
+		localStorage.clear();
+
 		history.push("/");
 	}
 
