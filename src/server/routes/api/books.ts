@@ -15,6 +15,18 @@ router.get('/categories', async (req, res) => {
     }
 });
 
+router.put('/editbook/:id', async (req, res) => {
+    try {
+        const editedBook = req.body;
+        const id = Number(req.params.id);
+        const editBook = await db.books.editBook(id, editedBook);
+        res.json(editBook);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Nope.", e });
+    }
+});
+
 router.get('/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);

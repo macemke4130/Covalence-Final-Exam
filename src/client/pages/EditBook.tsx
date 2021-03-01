@@ -20,21 +20,34 @@ const EditBook = (props: EditBookProps) => {
         if (localStorage.getItem('isAuth') === 'true') {
             setIsAuth(true);
         }
-        
-        getCats();
 
-        apiService('/api/books/' + id)
-            .then(book => setBook(book));
+        getCats();
     }, []);
 
     const getCats = async () => {
         const r = await apiService('/api/books/categories');
-        console.log(r);
         setAllCategory(r);
+        getBook();
+    }
+
+    const getBook = async () => {
+       const r = await apiService('/api/books/' + id);
+       console.log(r[0].author)
+       setTheAuthor(r[0].author);
+       setTheTitle(r[0].title);
+       setThePrice(r[0].price);
+       setTheCategory(r[0].categoryid);
     }
 
     const submitEdit = () => {
-        apiService('api/editbook/' + id, "DELETE");
+        const bodyObject = {
+            title: theTitle,
+            author: theAuthor,
+            categoryid: theCategory,
+            price: thePrice
+        }
+
+        apiService('/api/books/editbook/' + id, "PUT", bodyObject);
     }
 
     const hTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,17 +71,17 @@ const EditBook = (props: EditBookProps) => {
             <Nav />
             <h1>SingleBook Page</h1>
             <div>
-                <input type="text" value={book[0]?.title} onChange={hTitle}></input>
-                <input type="text" value={book[0]?.author} onChange={hAuthor}></input>
-                <input type="text" value={book[0]?.price} onChange={hPrice}></input>
-                <select value={book[0]?.categoryid} onChange={hCategory}>
-                {allCategory?.map(cat => (
-                   <option key={cat.id} value={cat.id}>{cat.name}</option>
-                ))}
-                 </select>
+                <input type="text" value={theTitle} onChange={hTitle}></input>
+                <input type="text" value={theAuthor} onChange={hAuthor}></input>
+                <input type="text" value={thePrice} onChange={hPrice}></input>
+                <select id="cats" value={theCategory} onChange={hCategory}>
+                    {allCategory?.map(cat => (
+                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                    ))}
+                </select>
                 <hr></hr>
             </div>
-            <button onClick={submitEdit}>Edit This Book</button>
+            <button onClick={submitEdit}>Submit Edit</button>
 
         </>
     );
