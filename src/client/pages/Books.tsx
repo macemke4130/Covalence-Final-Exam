@@ -25,7 +25,6 @@ const Books = (props: BooksProps) => {
                     <p>Category / Genre: {book.categoryname}</p>
                     <hr></hr>
                 </div>
-
             ))}
         </>
     );

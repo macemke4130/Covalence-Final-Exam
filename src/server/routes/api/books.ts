@@ -4,6 +4,17 @@ import db from '../../db';
 
 const router = express.Router();
 
+router.get('/:id', async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        const singleBook = await db.books.one(id);
+        res.json(singleBook);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Nope.", e });
+    }
+});
+
 router.get('/', async (req, res) => {
     try {
         const allBooks = await db.books.all();
@@ -13,5 +24,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: "Nope.", e });
     }
 });
+
+
 
 export default router;
