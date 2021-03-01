@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { generateHash } from '../../utils/passwords';
-// import db from '../../db';
+import db from '../../db';
 import { signToken } from '../../utils/tokens';
 
 const router = express.Router();
