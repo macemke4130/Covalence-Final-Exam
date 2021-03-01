@@ -8,35 +8,36 @@ import apiService from '../utils/api-service';
 const SingleBook = (props: SingleBookProps) => {
     const { id } = useParams<{ id: string }>();
     const [book, setBook] = useState<Array<IBook>>([]);
-
-    const [whoIsLoggedIn, setWhoIsLoggedIn] = useState<number | null>(null);
-    const [whoWroteThisPost, setWhoWroteThisPost] = useState<number>(0);
-    
+    const [isAuth, setIsAuth] = useState<Boolean>(false);
 
     useEffect(() => {
         if (localStorage.getItem('isAuth') === 'true') {
-            apiService('/api/users/who')
-                .then(who => {
-                    setWhoIsLoggedIn(who);
-                });
+            setIsAuth(true);
         }
 
         apiService('/api/books/' + id)
-        .then(book => setBook(book));
+            .then(book => setBook(book));
     }, []);
+
+    const deleteBook = () => {
+        apiService('api/deletebook/' + id, "DELETE");
+    }
 
 
     return (
-        <> 
+        <>
             <Nav />
             <h1>SingleBook Page</h1>
-                <div>
-                    <h4>{book[0]?.title}</h4>
-                    <p>Author: {book[0]?.author}</p>
-                    <p>Price: ${book[0]?.price}</p>
-                    <p>Category / Genre: {book[0]?.categoryname}</p>
-                    <hr></hr>
-                </div>
+            <div>
+                <h4>{book[0]?.title}</h4>
+                <p>Author: {book[0]?.author}</p>
+                <p>Price: ${book[0]?.price}</p>
+                <p>Category / Genre: {book[0]?.categoryname}</p>
+                <hr></hr>
+            </div>
+            {isAuth && <Link to={"/editbook/" + id}><button>Edit This Book</button></Link>}
+            {isAuth && <button onClick={deleteBook}>Delete This Book</button>}
+            
         </>
     );
 };

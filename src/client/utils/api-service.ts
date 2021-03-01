@@ -1,4 +1,4 @@
-const apiService = async <T = any>(uri: string, method: "GET" | "POST" | "PUT" = "GET", body?: {}) => {
+const apiService = async <T = any>(uri: string, method: "GET" | "POST" | "PUT" | "DELETE" = "GET", body?: {}) => {
     const headers: any = {    };
     const options: any = {
         method,
@@ -14,6 +14,10 @@ const apiService = async <T = any>(uri: string, method: "GET" | "POST" | "PUT" =
     if (method === "POST" || method === "PUT") {
         headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(body);
+    }
+
+    if (method === "DELETE") {
+        headers['Content-Type'] = 'application/json';
     }
 
     try {
