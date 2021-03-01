@@ -32,6 +32,7 @@ CREATE TABLE `Users` (
   `name` varchar(60) NOT NULL,
   PRIMARY KEY (`id`)
 );
+select * from users;
 
 CREATE TABLE `Tokens` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -5,7 +5,8 @@ export interface IPayload {
     id?: number,
     userid: number,
     email: string,
-    username: string
+    username?: string
+    name?: string
 }
 
 export interface ReqUser extends Request {
