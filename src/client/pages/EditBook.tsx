@@ -20,13 +20,18 @@ const EditBook = (props: EditBookProps) => {
         if (localStorage.getItem('isAuth') === 'true') {
             setIsAuth(true);
         }
+        
+        getCats();
 
         apiService('/api/books/' + id)
             .then(book => setBook(book));
-
-        apiService('/api/categories/')
-            .then(book => setBook(book));
     }, []);
+
+    const getCats = async () => {
+        const r = await apiService('/api/books/categories');
+        console.log(r);
+        setAllCategory(r);
+    }
 
     const submitEdit = () => {
         apiService('api/editbook/' + id, "DELETE");
@@ -44,7 +49,7 @@ const EditBook = (props: EditBookProps) => {
         setThePrice(Number(e.target.value));
     }
 
-    const hCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const hCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTheCategory(Number(e.target.value));
     }
 
@@ -56,8 +61,11 @@ const EditBook = (props: EditBookProps) => {
                 <input type="text" value={book[0]?.title} onChange={hTitle}></input>
                 <input type="text" value={book[0]?.author} onChange={hAuthor}></input>
                 <input type="text" value={book[0]?.price} onChange={hPrice}></input>
-                <input type="text" value={book[0]?.categoryname} onChange={hCategory}></input>
-                <select></select>
+                <select value={book[0]?.categoryid} onChange={hCategory}>
+                {allCategory?.map(cat => (
+                   <option key={cat.id} value={cat.id}>{cat.name}</option>
+                ))}
+                 </select>
                 <hr></hr>
             </div>
             <button onClick={submitEdit}>Edit This Book</button>

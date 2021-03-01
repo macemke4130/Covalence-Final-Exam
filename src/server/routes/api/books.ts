@@ -4,6 +4,17 @@ import db from '../../db';
 
 const router = express.Router();
 
+router.get('/categories', async (req, res) => {
+    try {
+        console.log("All Cats");
+        const allCats = await db.books.allCats();
+        res.json(allCats);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Nope.", e });
+    }
+});
+
 router.get('/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
@@ -15,15 +26,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/categories', async (req, res) => {
-    try {
-        const allCats = await db.books.allCats();
-        res.json(allCats);
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({ message: "Nope.", e });
-    }
-});
 
 router.get('/', async (req, res) => {
     try {
