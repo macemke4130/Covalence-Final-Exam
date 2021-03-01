@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 
 import Nav from '../components/Nav';
 import apiService from '../utils/api-service';
@@ -9,6 +9,8 @@ const SingleBook = (props: SingleBookProps) => {
     const { id } = useParams<{ id: string }>();
     const [book, setBook] = useState<Array<IBook>>([]);
     const [isAuth, setIsAuth] = useState<Boolean>(false);
+
+    const history = useHistory();
 
     useEffect(() => {
         if (localStorage.getItem('isAuth') === 'true') {
@@ -19,8 +21,9 @@ const SingleBook = (props: SingleBookProps) => {
             .then(book => setBook(book));
     }, []);
 
-    const deleteBook = () => {
-        apiService('api/deletebook/' + id, "DELETE");
+    const deleteBook = async () => {
+        const r = await apiService('/api/books/delete/' + id, "DELETE");
+        if(r) history.push('/books');
     }
 
 

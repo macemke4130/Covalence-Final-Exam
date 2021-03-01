@@ -10,6 +10,7 @@ const Home = (props: HomeProps) => {
         <> 
             <Nav />
             <h1>Home Page</h1>
+            <p>Please use the navigation above!</p>
         </>
     );
 };

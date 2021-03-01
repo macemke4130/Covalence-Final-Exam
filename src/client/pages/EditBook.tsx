@@ -16,6 +16,8 @@ const EditBook = (props: EditBookProps) => {
     const [theCategory, setTheCategory] = useState<number>(0);
     const [allCategory, setAllCategory] = useState<Array<IOption>>([]);
 
+    const history = useHistory();
+
     useEffect(() => {
         if (localStorage.getItem('isAuth') === 'true') {
             setIsAuth(true);
@@ -39,7 +41,7 @@ const EditBook = (props: EditBookProps) => {
        setTheCategory(r[0].categoryid);
     }
 
-    const submitEdit = () => {
+    const submitEdit = async () => {
         const bodyObject = {
             title: theTitle,
             author: theAuthor,
@@ -47,7 +49,8 @@ const EditBook = (props: EditBookProps) => {
             price: thePrice
         }
 
-        apiService('/api/books/editbook/' + id, "PUT", bodyObject);
+        const r = await apiService('/api/books/editbook/' + id, "PUT", bodyObject);
+        if(r) history.push('/books');
     }
 
     const hTitle = (e: React.ChangeEvent<HTMLInputElement>) => {

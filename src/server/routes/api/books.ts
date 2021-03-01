@@ -15,7 +15,19 @@ router.get('/categories', async (req, res) => {
     }
 });
 
-router.put('/editbook/:id', async (req, res) => {
+router.post('/new', passport.authenticate('jwt'), async (req: any, res) => { 
+    const newBook = req.body;
+    try {
+        const r = await db.books.insert(newBook);
+        const newBookId = r.insertId;
+        res.json({ message: 'new post inserted', newBook, newBookId });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Nope.", e });
+    }
+});
+
+router.put('/editbook/:id', passport.authenticate('jwt'), async (req, res) => {
     try {
         const editedBook = req.body;
         const id = Number(req.params.id);
@@ -50,7 +62,7 @@ router.get('/', async (req, res) => {
 });
 
 
-router.delete('/:id', async (req, res) => {
+router.delete('/delete/:id', passport.authenticate('jwt'), async (req, res) => {
     try {
         const id = Number(req.params.id);
         const deleteBook = await db.books.destroy(id);
